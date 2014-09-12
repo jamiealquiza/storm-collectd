@@ -24,7 +24,6 @@ func main() {
 	}
 }
 
-// Returns an array of all Storm topology names
 func getTop() []string {
 	topologies := make([]string, 0)
 	// Query API
@@ -73,7 +72,8 @@ func getTopInfo(endpoint string) {
 	// Grab 'bolts' object from full topology info output
 	bolts := data["bolts"].([]interface{})
 	for i := range bolts {
-		id := endpoint + ":" + bolts[i].(map[string]interface{})["boltId"].(string)
+		// includes top name: // id := endpoint + ":" + bolts[i].(map[string]interface{})["boltId"].(string)
+		id := bolts[i].(map[string]interface{})["boltId"].(string)
 		m, ok := info[id]
 		if !ok {
 			m = make(map[string]string)
@@ -88,9 +88,15 @@ func getTopInfo(endpoint string) {
 		}
 	}
 
-	for i := range info {
-		for k, v := range info[i] {
-			fmt.Printf("%s.%s: %s\n", i, k, v)
+	// Format output for Collectd
+	var hostname = os.Getenv("COLLECTD_HOSTNAME")
+	if hostname == "" {
+		hostname, _ = os.Hostname()
+	}
+
+	for bolt := range info {
+		for k, v := range info[bolt] {
+			fmt.Printf("PUTVAL %s/storm/gauge-%s-%s N:%s\n", hostname, bolt, k, v)
 		}
 	}
 }
