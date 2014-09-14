@@ -63,8 +63,8 @@ func getTopInfo(endpoint string) {
 	// Parse decoded and populate new map
 	// Most values from the Storm API are float64, some are strings.
 	// We create a new map 'info' that holds a nested map of strings for each boltId.
-	// Each boltId map is populated with the respective bolt's metrics. We collectd
-	// all metrics with value types of float64 (converting them to strings) and selective
+	// Each boltId map is populated with the respective bolt's metrics. We collect
+	// all metrics with value types of float64 (converting them to strings) and selectively
 	// capture some string based metric values that represent meaningful statistics (e.g.
 	// bolt 'capacity') while discarding others (e.g. bolt 'lastError').
 	r := regexp.MustCompile("capacity|executeLatency|processLatency")
