@@ -7,6 +7,8 @@ Apache Storm bolt metrics collectd plugin
 
 The plugin reports bolt metrics using the Storm API. It automatically finds all topologies, then fetches info for all bolts running under each topology.
 
+![ScreenShot](http://ghostbusters.net/static/img/ghostbusters-neutrino-wand.jpg)
+
 The plugin honors the `COLLECTD_HOSTNAME` variable passed by collectd and will failover to detecting the system hostname if no value is passed.
 
 ### Example setup
